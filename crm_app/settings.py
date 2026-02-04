@@ -11,7 +11,9 @@ https://docs.djangoproject.com/en/6.0/ref/settings/
 """
 
 from pathlib import Path
-
+from dotenv import load_dotenv
+import os
+load_dotenv()
 # Build paths inside the project like this: BASE_DIR / 'subdir'.
 BASE_DIR = Path(__file__).resolve().parent.parent
 
@@ -95,11 +97,11 @@ WSGI_APPLICATION = 'crm_app.wsgi.application'
 DATABASES = {
     'default': {
         'ENGINE': 'django.db.backends.postgresql',
-        'NAME': 'hrms_db',
-        'USER': 'ritik',
-        'PASSWORD': 'ritik',
-        'HOST': 'localhost',
-        'PORT': 5432,
+        'NAME': os.getenv('DATABASE_NAME') or 'hrms_db',
+        'USER': os.getenv('DATABASE_USER') or 'postgres',
+        'PASSWORD': os.getenv('DATABASE_PASSWORD') or 'postgres',
+        'HOST': os.getenv('DATABASE_HOST') or 'localhost',
+        'PORT': os.getenv('DATABASE_PORT') or 5432,
     }
 }
 
