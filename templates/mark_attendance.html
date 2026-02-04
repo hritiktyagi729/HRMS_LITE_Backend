@@ -1,0 +1,26 @@
+<html>
+<head>
+    <title>Mark Attendance</title>
+</head>
+<body>
+    <h1>Mark Attendance</h1>
+    <form method="post">
+        {% csrf_token %}
+        <label for="employee">Select Employee:</label><br>
+        <select id="employee" name="employee_ulid" required>
+            {% for employee in employees %}
+            <option value="{{ employee.ulid }}">{{ employee.name }}</option>
+            {% endfor %}
+        </select><br><br>
+        <label for="date">Date:</label><br>
+        <input type="date" id="date" name="date" required><br><br>
+        <label for="status">Status:</label><br>
+        <select id="status" name="status" required>
+            <option value="Present">Present</option>
+            <option value="Absent">Absent</option>
+            <option value="Leave">Leave</option>
+        </select><br><br>
+        <input type="submit" value="Mark Attendance">
+    </form>
+</body>
+</html>

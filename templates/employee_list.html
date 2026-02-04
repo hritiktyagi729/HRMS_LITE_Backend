@@ -1,0 +1,33 @@
+<!doctype html>
+<html>
+<head>
+    <meta charset="utf-8">
+    <title>Employee List</title>
+</head>
+<body>
+    <h1>Employee List</h1>
+    <table border="1">
+        <tr>
+            <th>Name</th>
+            <th>Department</th>
+            <th>Email</th>
+        </tr>
+        {% for employee in employees %}
+        <tr>
+            <td>{{ employee.name }}</td>
+            <td>{{ employee.department }}</td>
+            <td>{{ employee.email }}</td>
+        </tr>
+        {% endfor %}
+            {% if not flag %}
+
+        <a class="btn" href="{% url 'add_employee' %}">Add Employee</a>
+
+
+    {% endif %}
+    </table>
+
+
+
+</body>
+</html>
