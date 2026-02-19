@@ -4,7 +4,7 @@ from django.views.decorators.csrf import csrf_exempt
 from .utils import exceptionhandler
 import json
 from datetime import datetime
-
+from .schemas import EmployeeSchema
 
 @csrf_exempt
 @exceptionhandler
@@ -16,6 +16,10 @@ def AddEmployee(request):
             full_name = data.get('fullName')
             email = data.get('email')
             department = data.get('department')
+            errors = EmployeeSchema.validate(data)
+            if errors:
+                messages = [f"{field}: {', '.join(msgs)}" for field, msgs in errors.items()]
+                return JsonResponse({"errors": messages}, status=400)
             
             if not full_name or not email or not department:
                 return JsonResponse({'error': 'Missing required fields'}, status=400)

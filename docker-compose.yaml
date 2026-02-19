@@ -9,13 +9,13 @@ services:
     ports:
       - "5432:5432"
     environment:
-      POSTGRES_USER: ritik
-      POSTGRES_PASSWORD: ritik
+      POSTGRES_USER: postgres
+      POSTGRES_PASSWORD: postgres
       POSTGRES_DB: hrms_db
     volumes:
       - postgres_data:/var/lib/postgresql/data
     healthcheck:
-      test: ["CMD-SHELL", "pg_isready -U ritik"]
+      test: ["CMD-SHELL", "pg_isready -U postgres"]
       interval: 10s
       timeout: 5s
       retries: 5
@@ -24,10 +24,27 @@ services:
     image: adminer
     restart: always
     ports:
-      - 127.0.0.1:8080:8080
+      - 8080:8080
     depends_on:
       db:
         condition: service_healthy
+  web:
+    build: 
+      context: .
+      dockerfile: Dockerfile
+    command: sh -c "python manage.py migrate && python manage.py runserver 0.0.0.0:8000"
+    volumes:
+      - .:/app
+    ports:
+      - 8000:8000
+    environment:
+      - DEBUG=1
+      - POSTGRES_USER=postgres
+      - POSTGRES_PASSWORD=postgres
+      - POSTGRES_DB=hrms_db
+    depends_on:
+      db:
+        condition: service_healthy      
 
 volumes:
   postgres_data:

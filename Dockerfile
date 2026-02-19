@@ -8,10 +8,10 @@ RUN apt-get update && apt-get install -y \
     && rm -rf /var/lib/apt/lists/*
 
 # Copy requirements (if it exists)
-COPY requirements.txt* /app/
+COPY requirements.txt .
 
 # Install Python dependencies
-RUN pip install --no-cache-dir Django==6.0.2 psycopg2-binary
+RUN pip install --no-cache-dir -r requirements.txt
 
 # Copy project
 COPY . /app/
